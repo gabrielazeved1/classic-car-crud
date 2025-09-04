@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vendedores</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="carros.html">Carros</a>
+    <a href="clientes.html">Clientes</a>
+    <a href="vendas.html">Vendas</a>
+    <a href="vendedores.html">Vendedores</a>
+  </nav>
+
+  <main>
+    <h1>Lista de Vendedores</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Matrícula</th>
+          <th>Contato</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="vendedores-table-body"></tbody>
+    </table>
+
+    <h2>Adicionar Novo Vendedor</h2>
+    <form id="vendedor-form">
+      <label>Nome: <input type="text" id="nome" required></label>
+      <label>Matrícula: <input type="text" id="matricula" required></label>
+      <label>Contato: <input type="text" id="contato" required></label>
+      <button type="submit">Adicionar Vendedor</button>
+    </form>
+
+    <h2>Editar Vendedor</h2>
+    <form id="editar-vendedor-form" style="display:none;">
+      <input type="hidden" id="edit-id">
+      <label>Nome: <input type="text" id="edit-nome" required></label>
+      <label>Matrícula: <input type="text" id="edit-matricula" required></label>
+      <label>Contato: <input type="text" id="edit-contato" required></label>
+      <button type="submit">Salvar Alterações</button>
+      <button type="button" onclick="cancelarEdicaoVendedor()">Cancelar</button>
+    </form>
+  </main>
+
+  <script src="./js/vendedores.js"></script>
+</body>
+</html>

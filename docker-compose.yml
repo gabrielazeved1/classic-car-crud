@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:13
+    container_name: postgres_db_concessionaria
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT}:5432"
+
+  backend:
+      build: ./classic-car-api
+      container_name: spring_app_concessionaria
+      env_file:
+        - .env
+      environment:
+        DB_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+        DB_USERNAME: ${DB_USERNAME}
+        DB_PASSWORD: ${DB_PASSWORD}
+      ports:
+        - "8080:8080"
+      depends_on:
+       - db
+      volumes:
+        - ./classic-car-api/src:/app/src
+        - ./classic-car-api/pom.xml:/app/pom.xml
+
+  frontend:
+    build: ./classic-car-frontend
+    container_name: classic_car_frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./classic-car-frontend:/usr/share/nginx/html
+
+
+volumes:
+  postgres_data:

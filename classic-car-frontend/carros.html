@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>CRUD Carros</title>
+  <link rel="stylesheet" href="css/carros.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="carros.html">Carros</a>
+    <a href="clientes.html">Clientes</a>
+    <a href="vendas.html">Vendas</a>
+    <a href="vendedores.html">Vendedores</a>
+    <a href="loja.html">Loja</a>
+  </nav>
+
+  <h1>CRUD Carros</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Ano</th>
+        <th>Preço</th>
+        <th>Descrição</th>
+        <th>Imagem</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody id="carros-table-body"></tbody>
+  </table>
+
+  <h2>Adicionar Novo Carro</h2>
+  <form id="carro-form">
+    <input type="text" id="marca" placeholder="Marca" required>
+    <input type="text" id="modelo" placeholder="Modelo" required>
+    <input type="number" id="ano" placeholder="Ano" required>
+    <input type="number" id="preco" step="0.01" placeholder="Preço" required>
+    <input type="text" id="descricao" placeholder="Descrição" required>
+    <input type="text" id="imagem" placeholder="URL da Imagem" required>
+    <select id="status">
+      <option value="A_VENDA">A Venda</option>
+      <option value="VENDIDO">Vendido</option>
+    </select>
+    <button type="submit">Adicionar Carro</button>
+  </form>
+
+  <h2>Editar Carro</h2>
+  <form id="editar-form" style="display:none;">
+    <input type="hidden" id="edit-id">
+    <input type="text" id="edit-marca" placeholder="Marca" required>
+    <input type="text" id="edit-modelo" placeholder="Modelo" required>
+    <input type="number" id="edit-ano" placeholder="Ano" required>
+    <input type="number" id="edit-preco" step="0.01" placeholder="Preço" required>
+    <input type="text" id="edit-descricao" placeholder="Descrição" required>
+    <input type="text" id="edit-imagem" placeholder="URL da Imagem" required>
+    <select id="edit-status">
+      <option value="A_VENDA">A Venda</option>
+      <option value="VENDIDO">Vendido</option>
+    </select>
+    <button type="submit">Salvar Alterações</button>
+    <button type="button" onclick="cancelarEdicao()">Cancelar</button>
+  </form>
+
+  <script src="./js/carros.js"></script>
+</body>
+</html>

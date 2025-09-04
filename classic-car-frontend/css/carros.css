@@ -1,0 +1,91 @@
+body {
+  font-family: 'Georgia', serif;
+  background-color: #f4f1e7;
+  color: #333;
+  padding: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #5d4037;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+h1 {
+  color: #3e2723;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table, th, td {
+  border: 1px solid #5d4037;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+button {
+  background-color: #5d4037;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #7a5437;
+}
+
+.carros-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.carro-card-loja {
+  background-color: #fff8f0;
+  border: 2px solid #d7ccc8;
+  border-radius: 10px;
+  padding: 15px;
+  width: 220px;
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+}
+
+.carro-card-loja img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.carro-card-loja h3 {
+  margin: 10px 0 5px 0;
+  color: #6d4c41;
+}
+
+.carro-card-loja p {
+  margin: 4px 0;
+  font-size: 0.95em;
+}
+
+.carro-card-loja button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #8d6e63;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.carro-card-loja button:hover {
+  background-color: #6d4c41;
+}
