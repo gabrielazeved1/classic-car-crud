@@ -18,7 +18,8 @@ async function carregarCarros() {
         <td>${carro.ano}</td>
         <td>R$ ${carro.preco.toFixed(2)}</td>
         <td>${carro.descricao}</td>
-        <td><img src="${carro.imagem}" alt="${carro.modelo}" width="100"></td>
+        <td><img src="${carro.imagem || 'https://via.placeholder.com/100x60?text=Sem+Imagem'}" 
+                 alt="${carro.modelo}" width="100"></td>
         <td>${carro.status}</td>
         <td>
           <button onclick="deletarCarro(${carro.id})">Deletar</button>
@@ -42,7 +43,7 @@ document.getElementById("carro-form").addEventListener("submit", async (e) => {
     ano: parseInt(document.getElementById("ano").value),
     preco: parseFloat(document.getElementById("preco").value),
     descricao: document.getElementById("descricao").value,
-    imagem: document.getElementById("imagem").value,
+    imagem: document.getElementById("imagem").value || 'https://via.placeholder.com/220x120?text=Sem+Imagem',
     status: document.getElementById("status").value
   };
 
@@ -89,7 +90,7 @@ document.getElementById("editar-form").addEventListener("submit", async (e) => {
     ano: parseInt(document.getElementById("edit-ano").value),
     preco: parseFloat(document.getElementById("edit-preco").value),
     descricao: document.getElementById("edit-descricao").value,
-    imagem: document.getElementById("edit-imagem").value,
+    imagem: document.getElementById("edit-imagem").value || 'https://via.placeholder.com/220x120?text=Sem+Imagem',
     status: document.getElementById("edit-status").value
   };
 

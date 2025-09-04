@@ -1,24 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Classic Car - Home</title>
-    <link rel="stylesheet" href="css/carros.css">
+  <meta charset="UTF-8">
+  <title>Classic Car - Home</title>
+  <link rel="stylesheet" href="css/carros.css">
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="carros.html">CRUD Carros</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="vendas.html">Vendas</a>
-        <a href="vendedores.html">Vendedores</a>
-        <a href="loja.html">Loja</a>
-    </nav>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="carros.html">CRUD Carros</a>
+    <a href="clientes.html">Clientes</a>
+    <a href="vendas.html">Vendas</a>
+    <a href="vendedores.html">Vendedores</a>
+    <a href="loja.html">Loja</a>
+  </nav>
 
-    <h1>Bem-vindo à Classic Car</h1>
-    <h2>Vitrine</h2>
-    <div id="carros-container" class="carros-grid"></div>
+  <h1>Bem-vindo à Classic Car</h1>
+  <h2>Carros Disponíveis</h2>
+  <div id="carros-container" class="carros-grid"></div>
 
-    <script src="js/loja.js"></script>
+  <script>
+    const API_URL = "http://localhost:8080/carros";
+
+    async function carregarCarrosVitrine() {
+      const container = document.getElementById("carros-container");
+      if (!container) return;
+
+      try {
+        const res = await fetch(API_URL);
+        const carros = await res.json();
+        container.innerHTML = "";
+
+        carros.forEach(carro => {
+          // Se não houver imagem, usar placeholder
+          const imagemUrl = carro.imagem && carro.imagem !== "" ? carro.imagem : "https://via.placeholder.com/220x120?text=Sem+Imagem";
+
+          const card = document.createElement("div");
+          card.className = "carro-card-loja";
+          card.innerHTML = `
+            <img src="${imagemUrl}" alt="${carro.modelo}">
+            <h3>${carro.marca} ${carro.modelo} (${carro.ano})</h3>
+            <p>${carro.descricao}</p>
+            <p>R$ ${carro.preco.toFixed(2)}</p>
+            <p><b>Frete grátis! Retire seu carro hoje mesmo.</b></p>
+            <button onclick="comprarCarro(${carro.id})">Comprar</button>
+          `;
+          container.appendChild(card);
+        });
+      } catch (err) {
+        console.error("Erro ao carregar carros:", err);
+      }
+    }
+
+    function comprarCarro(id) {
+      window.location.href = `vendas.html?carroId=${id}`;
+    }
+
+    window.addEventListener("DOMContentLoaded", carregarCarrosVitrine);
+  </script>
 </body>
 </html>

@@ -13,7 +13,8 @@ async function carregarCarrosVitrine() {
       const card = document.createElement("div");
       card.className = "carro-card-loja";
       card.innerHTML = `
-        <img src="${carro.imagem}" alt="${carro.modelo}">
+        <img src="${carro.imagem || 'https://via.placeholder.com/220x120?text=Sem+Imagem'}" 
+             alt="${carro.modelo}">
         <h3>${carro.marca} ${carro.modelo} (${carro.ano})</h3>
         <p>${carro.descricao}</p>
         <p>R$ ${carro.preco.toFixed(2)}</p>
