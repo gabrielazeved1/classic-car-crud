@@ -37,8 +37,8 @@ public class CarroAntigo {
     @Positive(message = "O preço deve ser um valor positivo")
     private Double preco;
 
-    @Size(max = 200, message = "A descrição deve ter no máximo 200 caracteres")
-    @Column(length = 200)
+    @Size(max = 1000, message = "A descrição deve ter no máximo 1000 caracteres")
+    @Column(length = 1000) // Também aumentar o tamanho da coluna na base de dados
     private String descricao;
 
     @Column(length = 10, columnDefinition = "VARCHAR(10) DEFAULT 'A_VENDA'")

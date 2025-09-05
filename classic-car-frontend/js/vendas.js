@@ -4,39 +4,22 @@ const API_CLIENTES = "http://localhost:8080/clientes";
 const API_VENDEDORES = "http://localhost:8080/vendedores";
 const IMG_BASE_URL = "http://localhost:8080/images/";
 
+// Elementos do DOM
 const vendaForm = document.getElementById('vendaForm');
 const vendasContainer = document.getElementById('vendas-container');
 const carroDetalhesContainer = document.getElementById('carro-selecionado-detalhes');
+const formSection = document.querySelector('.form-section');
+const instructionMessage = document.getElementById('instruction-message');
 
-// === Lógica de Máscaras com IMask.js ===
 let valorMask;
+
+// Lógica de Máscaras
 document.addEventListener('DOMContentLoaded', () => {
-    // Máscara para Data (Configuração simplificada e corrigida)
     const dataInput = document.getElementById('data');
     if (dataInput) {
-        IMask(dataInput, {
-            mask: 'DD/MM/YYYY',
-            blocks: {
-                DD: {
-                    mask: IMask.MaskedRange,
-                    from: 1,
-                    to: 31
-                },
-                MM: {
-                    mask: IMask.MaskedRange,
-                    from: 1,
-                    to: 12
-                },
-                YYYY: {
-                    mask: IMask.MaskedRange,
-                    from: 1900,
-                    to: new Date().getFullYear() + 5 // Permitir anos futuros
-                }
-            }
-        });
+        IMask(dataInput, { mask: '00/00/0000' });
     }
 
-    // Máscara para Valor (Moeda)
     const valorInput = document.getElementById('valor');
     if (valorInput) {
         valorMask = IMask(valorInput, {
@@ -50,15 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-// ======================================
 
-// Preencher selects
-async function carregarOpcoes() {
-    await preencherSelect(API_CARROS, "carroId", "modelo");
-    await preencherSelect(API_CLIENTES, "clienteId", "nome");
-    await preencherSelect(API_VENDEDORES, "vendedorId", "nome");
-}
-
+// Preencher selects de clientes e vendedores
 async function preencherSelect(url, selectId, campoLabel) {
     try {
         const res = await fetch(url);
@@ -66,9 +42,7 @@ async function preencherSelect(url, selectId, campoLabel) {
         const select = document.getElementById(selectId);
         select.innerHTML = "<option value=''>Selecione...</option>";
         dados.forEach(d => {
-            const option = document.createElement("option");
-            option.value = d.id;
-            option.textContent = d[campoLabel] || `ID ${d.id}`;
+            const option = new Option(d[campoLabel] || `ID ${d.id}`, d.id);
             select.appendChild(option);
         });
     } catch (err) {
@@ -76,7 +50,8 @@ async function preencherSelect(url, selectId, campoLabel) {
     }
 }
 
-// Listar vendas
+// ============== FUNÇÃO CORRIGIDA ==============
+// Listar vendas existentes
 async function listarVendas() {
     vendasContainer.innerHTML = "";
     try {
@@ -85,12 +60,14 @@ async function listarVendas() {
         vendas.forEach(venda => {
             const card = document.createElement("div");
             card.className = "venda-card";
+            // Adiciona T00:00:00 para evitar problemas de fuso horário
+            const dataVenda = new Date(venda.data + 'T00:00:00');
+            
+            // Alterado para mostrar apenas os dados disponíveis: id, data e valor
             card.innerHTML = `
                 <h3>Venda #${venda.id}</h3>
-                <p><b>Carro:</b> ${venda.carro.modelo}</p>
-                <p><b>Cliente:</b> ${venda.cliente.nome}</p>
-                <p><b>Data:</b> ${new Date(venda.data).toLocaleDateString('pt-BR')}</p>
-                <p><b>Valor:</b> R$ ${venda.valor.toFixed(2).replace('.', ',')}</p>
+                <p><b>Data da Venda:</b> ${dataVenda.toLocaleDateString('pt-BR')}</p>
+                <p><b>Valor da Venda:</b> R$ ${venda.valor.toFixed(2).replace('.', ',')}</p>
             `;
             vendasContainer.appendChild(card);
         });
@@ -98,14 +75,13 @@ async function listarVendas() {
         console.error("Erro ao buscar vendas:", err);
     }
 }
+// ==============================================
 
-// Registar venda
+// Submeter o formulário de uma nova venda
 vendaForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-
     const dataInput = document.getElementById("data").value.split('/');
     const dataFormatada = `${dataInput[2]}-${dataInput[1]}-${dataInput[0]}`;
-
     const vendaData = {
         carro: { id: parseInt(document.getElementById("carroId").value) },
         cliente: { id: parseInt(document.getElementById("clienteId").value) },
@@ -122,9 +98,9 @@ vendaForm.addEventListener("submit", async (e) => {
         });
         if (!res.ok) throw new Error("Erro ao registar venda. Verifique se o carro já foi vendido.");
         
-        vendaForm.reset();
-        if (valorMask) valorMask.value = '';
+        formSection.style.display = 'none';
         carroDetalhesContainer.style.display = 'none';
+        instructionMessage.style.display = 'block';
 
         listarVendas();
         alert("Venda registada com sucesso!");
@@ -134,17 +110,20 @@ vendaForm.addEventListener("submit", async (e) => {
     }
 });
 
-// Carregar detalhes do carro se o ID for passado na URL
-async function carregarDetalhesCarro() {
+// Carrega o contexto da página
+async function carregarContextoDeVenda() {
     const params = new URLSearchParams(window.location.search);
     const carroId = params.get('carroId');
 
     if (carroId) {
+        instructionMessage.style.display = 'none';
+        carroDetalhesContainer.style.display = 'flex';
+        formSection.style.display = 'block';
+
         try {
             const res = await fetch(`${API_CARROS}/${carroId}`);
             const carro = await res.json();
             const imagemSrc = carro.imagemUrl ? `${IMG_BASE_URL}${carro.imagemUrl}` : 'images/default.jpg';
-
             carroDetalhesContainer.innerHTML = `
                 <img src="${imagemSrc}" alt="${carro.modelo}">
                 <div>
@@ -153,24 +132,29 @@ async function carregarDetalhesCarro() {
                     <p class="preco">Valor: R$ ${carro.preco.toFixed(2).replace('.', ',')}</p>
                 </div>
             `;
-            carroDetalhesContainer.style.display = 'flex';
-
-            document.getElementById('carroId').value = carro.id;
+            const carroSelect = document.getElementById('carroId');
+            carroSelect.innerHTML = `<option value="${carro.id}">${carro.modelo}</option>`;
+            carroSelect.value = carro.id;
             if (valorMask) {
                 valorMask.value = carro.preco.toString();
             }
         } catch (err) {
             console.error("Erro ao carregar detalhes do carro:", err);
-            carroDetalhesContainer.innerHTML = `<p>Erro ao carregar detalhes do carro selecionado.</p>`;
-            carroDetalhesContainer.style.display = 'block';
+            carroDetalhesContainer.innerHTML = `<p>Erro ao carregar detalhes.</p>`;
         }
+    } else {
+        instructionMessage.style.display = 'block';
+        carroDetalhesContainer.style.display = 'none';
+        formSection.style.display = 'none';
     }
 }
 
-// Inicialização
+// Inicialização da página
 window.addEventListener("DOMContentLoaded", () => {
-    carregarOpcoes();
+    preencherSelect(API_CLIENTES, "clienteId", "nome");
+    preencherSelect(API_VENDEDORES, "vendedorId", "nome");
+    
     listarVendas();
-    carregarDetalhesCarro();
+    carregarContextoDeVenda();
 });
 

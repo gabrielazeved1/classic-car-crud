@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Registar Venda - Classic Car</title>
+    <title>Histórico de Vendas - Classic Car</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/vendas.css">
 </head>
@@ -10,23 +10,26 @@
     <header id="header-placeholder"></header>
 
     <header class="page-header">
-        <h1>Registar Venda</h1>
-        <p>Preencha os dados abaixo para concluir a negociação.</p>
+        <h1>Histórico de Vendas</h1>
+        <p>Acompanhe todas as negociações concluídas.</p>
     </header>
 
     <main>
         <div class="venda-container">
-            <!-- Detalhes do carro selecionado -->
-            <section id="carro-selecionado-detalhes" class="carro-details-card" style="display: none;">
-                <!-- Conteúdo preenchido por JS -->
+            <!-- Mensagem de instrução (começa visível) -->
+            <section id="instruction-message" class="instruction-card">
+                <p>Para registar uma nova venda, por favor, escolha um carro primeiro na página <a href="index.html">principal</a> ou na <a href="loja.html">loja</a>.</p>
             </section>
 
-            <!-- Formulário de Venda -->
-            <section class="form-section">
-                <h2>Dados da Venda</h2>
+            <!-- Detalhes do carro selecionado (começa escondido) -->
+            <section id="carro-selecionado-detalhes" class="carro-details-card" style="display: none;"></section>
+
+            <!-- Formulário de Venda (começa escondido) -->
+            <section class="form-section" style="display: none;">
+                <h2>Registar Nova Venda</h2>
                 <form id="vendaForm" class="form-grid">
                     <label for="carroId">Carro:</label>
-                    <select id="carroId" required></select>
+                    <select id="carroId" required disabled></select> <!-- Desativado para não ser alterado -->
 
                     <label for="clienteId">Cliente:</label>
                     <select id="clienteId" required></select>
@@ -38,15 +41,15 @@
                     <input type="text" id="data" required placeholder="dd/mm/aaaa">
 
                     <label for="valor">Valor (R$):</label>
-                    <input type="text" id="valor" required> <!-- Mudado para 'text' -->
+                    <input type="text" id="valor" required>
 
-                    <button type="submit" class="submit-btn">Registar Venda</button>
+                    <button type="submit" class="submit-btn">Confirmar Venda</button>
                 </form>
             </section>
 
              <!-- Histórico de Vendas -->
              <section class="historico-vendas">
-                <h2>Histórico de Vendas Recentes</h2>
+                <h2>Vendas Recentes</h2>
                 <div id="vendas-container" class="vendas-grid">
                     <!-- Cards de vendas inseridos via JS -->
                 </div>
@@ -56,7 +59,7 @@
 
     <!-- Scripts -->
     <script src="js/header.js"></script>
-    <script src="https://unpkg.com/imask"></script> <!-- Adicionar a biblioteca IMask -->
+    <script src="https://unpkg.com/imask"></script>
     <script src="js/vendas.js"></script>
 </body>
 </html>
