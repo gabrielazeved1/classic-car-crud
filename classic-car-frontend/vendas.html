@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="css/vendas.css">
 </head>
 <body>
-    <!-- O cabeçalho será inserido aqui pelo header.js -->
     <header id="header-placeholder"></header>
 
     <header class="page-header">
@@ -25,7 +24,6 @@
             <!-- Formulário de Venda -->
             <section class="form-section">
                 <h2>Dados da Venda</h2>
-                <!-- Adicionada a classe form-grid para alinhar os campos -->
                 <form id="vendaForm" class="form-grid">
                     <label for="carroId">Carro:</label>
                     <select id="carroId" required></select>
@@ -37,12 +35,11 @@
                     <select id="vendedorId" required></select>
 
                     <label for="data">Data da Venda:</label>
-                    <input type="date" id="data" required>
+                    <input type="text" id="data" required placeholder="dd/mm/aaaa">
 
                     <label for="valor">Valor (R$):</label>
-                    <input type="number" id="valor" step="0.01" required>
+                    <input type="text" id="valor" required> <!-- Mudado para 'text' -->
 
-                    <!-- O botão fica fora da grelha para ocupar a largura total -->
                     <button type="submit" class="submit-btn">Registar Venda</button>
                 </form>
             </section>
@@ -59,6 +56,7 @@
 
     <!-- Scripts -->
     <script src="js/header.js"></script>
+    <script src="https://unpkg.com/imask"></script> <!-- Adicionar a biblioteca IMask -->
     <script src="js/vendas.js"></script>
 </body>
 </html>

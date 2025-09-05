@@ -11,21 +11,18 @@ const modalConfirmBtn = document.getElementById('modal-confirm-btn');
 const modalCancelBtn = document.getElementById('modal-cancel-btn');
 const closeBtn = document.querySelector('.close-btn');
 
-let deleteId = null; // Variável para guardar o ID a ser excluído
+let deleteId = null;
 
-// Abre o modal
 function showModal(id) {
     deleteId = id;
     modal.style.display = 'flex';
 }
 
-// Fecha o modal
 function closeModal() {
     deleteId = null;
     modal.style.display = 'none';
 }
 
-// Adiciona os eventos para fechar e confirmar
 modalConfirmBtn.addEventListener('click', () => {
     if (deleteId) {
         handleDelete(deleteId);
@@ -36,13 +33,34 @@ modalConfirmBtn.addEventListener('click', () => {
 modalCancelBtn.addEventListener('click', closeModal);
 closeBtn.addEventListener('click', closeModal);
 window.addEventListener('click', (event) => {
-    // Fecha se o utilizador clicar fora da caixa do modal
     if (event.target == modal) {
         closeModal();
     }
 });
 // =======================
 
+// === Lógica de Máscaras com IMask.js ===
+document.addEventListener('DOMContentLoaded', () => {
+    // Máscara para o campo CPF
+    const cpfInput = document.getElementById('cpf');
+    if (cpfInput) {
+        IMask(cpfInput, {
+            mask: '000.000.000-00'
+        });
+    }
+
+    // Máscara para o campo de Contacto (Telefone)
+    const contatoInput = document.getElementById('contato');
+    if (contatoInput) {
+        IMask(contatoInput, {
+            mask: [
+                { mask: '(00) 0000-0000' },  // Telefone fixo
+                { mask: '(00) 00000-0000' } // Telemóvel
+            ]
+        });
+    }
+});
+// ======================================
 
 async function fetchClientes() {
     try {
@@ -110,7 +128,6 @@ async function editCliente(id) {
     }
 }
 
-// Esta função agora é chamada apenas pelo modal
 async function handleDelete(id) {
     try {
         await fetch(`${API_URL}/${id}`, { method: "DELETE" });
@@ -129,6 +146,5 @@ function resetForm() {
 
 cancelEditBtn.addEventListener("click", resetForm);
 
-// Carrega os dados iniciais
 fetchClientes();
 

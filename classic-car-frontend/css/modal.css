@@ -1,16 +1,16 @@
-/* Fundo escurecido do modal (overlay) */
+/* O fundo escurecido do modal (backdrop) */
 .modal {
+    display: none; /* Começa escondido por defeito */
     position: fixed; /* Fica fixo na tela */
     z-index: 1000; /* Fica por cima de tudo */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.6); /* Efeito de escurecimento */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    overflow: auto; /* Permite scroll se necessário */
+    background-color: rgba(0, 0, 0, 0.6); /* Cor de fundo preta com transparência */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    align-items: center; /* Centraliza o conteúdo verticalmente */
 }
 
 /* A caixa de diálogo do modal */
@@ -20,7 +20,7 @@
     padding: 25px 30px;
     border: 1px solid #888;
     width: 90%;
-    max-width: 400px; /* Largura máxima */
+    max-width: 450px; /* Largura máxima */
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     text-align: center;
@@ -28,63 +28,72 @@
     animation: fadeIn 0.3s;
 }
 
-/* Animação de fade-in */
+/* Animação de entrada */
 @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
+    from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
 }
 
-/* Botão de fechar (X) */
+/* Botão de fechar (o "X") */
 .close-btn {
     color: #aaa;
     position: absolute;
     top: 10px;
-    right: 15px;
+    right: 20px;
     font-size: 28px;
     font-weight: bold;
-    cursor: pointer;
 }
 
 .close-btn:hover,
 .close-btn:focus {
     color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-/* Botões de ação dentro do modal */
+.modal-content h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.modal-content p {
+    margin-bottom: 25px;
+    color: #666;
+}
+
+/* Container dos botões de ação */
 .modal-buttons {
-    margin-top: 20px;
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 15px; /* Espaço entre os botões */
 }
 
-.modal-buttons button {
+/* Estilo base para os botões do modal */
+.modal-btn {
     padding: 10px 25px;
     border: none;
     border-radius: 5px;
+    color: white;
     font-size: 1em;
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
-/* Botão de cancelar */
-#modal-cancel-btn {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    color: #333;
+/* Botão de confirmar (vermelho) */
+.modal-btn.confirm {
+    background-color: #dc3545; /* Vermelho */
 }
 
-#modal-cancel-btn:hover {
-    background-color: #e0e0e0;
+.modal-btn.confirm:hover {
+    background-color: #c82333;
 }
 
-/* Botão de confirmar (destrutivo) */
-#modal-confirm-btn {
-    background-color: #d9534f; /* Vermelho perigo */
-    color: white;
+/* Botão de cancelar (cinzento) */
+.modal-btn.cancel {
+    background-color: #6c757d; /* Cinzento */
 }
 
-#modal-confirm-btn:hover {
-    background-color: #c9302c;
+.modal-btn.cancel:hover {
+    background-color: #5a6268;
 }
 

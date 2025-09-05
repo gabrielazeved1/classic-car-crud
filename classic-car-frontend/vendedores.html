@@ -4,38 +4,31 @@
     <meta charset="UTF-8">
     <title>Gerir Vendedores - Classic Car</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/admin.css"> <!-- CSS partilhado -->
-    <link rel="stylesheet" href="css/modal.css">  <!-- CSS do novo modal -->
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/modal.css">
 </head>
 <body>
-    <!-- O cabeçalho será inserido aqui pelo header.js -->
     <header id="header-placeholder"></header>
 
     <main class="admin-page">
         <h1>Gestão de Vendedores</h1>
-
         <div class="admin-container">
-            <!-- Formulário para Adicionar/Editar -->
+            <!-- Formulário -->
             <div class="form-container">
                 <h2 id="form-title">Adicionar Novo Vendedor</h2>
                 <form id="vendedor-form">
                     <input type="hidden" id="vendedorId">
-                    
                     <label for="nome">Nome Completo:</label>
                     <input type="text" id="nome" required>
-                    
-                    <label for="matricula">Matrícula:</label>
+                    <label for="matricula">Matrícula (ex: V0001):</label>
                     <input type="text" id="matricula" required>
-
-                    <label for="contato">Contacto (Telefone/Email):</label>
+                    <label for="contato">Contacto (Telefone):</label>
                     <input type="text" id="contato">
-                    
                     <button type="submit">Guardar</button>
                     <button type="button" id="cancel-edit-btn" style="display: none;">Cancelar Edição</button>
                 </form>
             </div>
-
-            <!-- Tabela de Vendedores -->
+            <!-- Tabela -->
             <div class="table-container">
                 <h2>Vendedores Registados</h2>
                 <table>
@@ -48,29 +41,28 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="vendedores-table-body">
-                        <!-- Linhas inseridas via JS -->
-                    </tbody>
+                    <tbody id="vendedores-table-body"></tbody>
                 </table>
             </div>
         </div>
     </main>
 
-    <!-- Estrutura do Modal de Confirmação -->
-    <div id="confirm-modal" class="modal" style="display: none;">
+    <!-- Estrutura do Modal -->
+    <div id="confirm-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
-            <p id="modal-text">Tem a certeza de que deseja excluir este vendedor?</p>
+            <h2>Confirmar Exclusão</h2>
+            <p>Tem a certeza de que deseja excluir este registo? Esta ação não pode ser desfeita.</p>
             <div class="modal-buttons">
-                <button id="modal-cancel-btn">Cancelar</button>
-                <button id="modal-confirm-btn">Excluir</button>
+                <button id="modal-cancel-btn" class="modal-btn cancel">Cancelar</button>
+                <button id="modal-confirm-btn" class="modal-btn confirm">Excluir</button>
             </div>
         </div>
     </div>
 
-
     <!-- Scripts -->
     <script src="js/header.js"></script>
+    <script src="https://unpkg.com/imask"></script> <!-- Adicionar a biblioteca IMask -->
     <script src="js/vendedores.js"></script>
 </body>
 </html>
