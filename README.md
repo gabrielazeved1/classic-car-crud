@@ -115,7 +115,7 @@ docker compose up --build -d
 - **Validações automáticas** (tamanho de campos, formatos, integridade referencial)  
 - **Fluxo completo:** cadastro → listagem → venda → registro
 
-```markdown
+
 ## Testes
 
 Funcionalidades testadas via:  
@@ -126,6 +126,7 @@ Funcionalidades testadas via:
 ### Exemplos de consultas no banco
 
 - Acessar o PostgreSQL dentro do container  
+
 ```sql
 docker exec -it postgres_db_concessionaria psql -U seu_usuario_postgres -d concessionaria
 ```
