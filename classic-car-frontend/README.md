@@ -6,6 +6,18 @@ A aplicação está totalmente contentorizada com **Docker**, utilizando **Nginx
 
 ---
 
+![Frontend Preview](../images/front.png)
+
+---
+
+## Créditos das Imagens
+
+Todas as fotos de carros utilizadas no frontend foram obtidas do site [Pastor ECC - Carros Antigos e de Coleção](https://www.pastorecc.com.br/carros/antigos-e-colecao).  
+
+> Nota: As imagens são usadas apenas para fins de demonstração e testes no frontend.
+---
+
+
 ## Tecnologias Utilizadas
 
 - **HTML5**: Estrutura semântica das páginas.
