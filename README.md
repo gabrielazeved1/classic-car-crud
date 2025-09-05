@@ -1,214 +1,167 @@
-# Classic Car CRUD API
+# Projeto Concessionária de Carros Clássicos (Full-Stack)
 
-API REST desenvolvida em **Java Spring Boot** para gerenciar um sistema de concessionária de carros clássicos.  
-O projeto implementa **CRUD completo** para Clientes, Vendedores, Carros e Vendas, persistindo os dados em **PostgreSQL**.
+Bem-vindo ao projeto **Concessionária de Carros Clássicos**, uma aplicação web **full-stack** completa que combina tecnologia moderna, arquitetura bem estruturada e uma experiência de usuário dinâmica.  
+
+Este projeto foi desenvolvido para simular o ambiente de uma concessionária real, permitindo que **clientes explorem uma vitrine de veículos clássicos**, enquanto os administradores podem **gerenciar carros, clientes, vendedores e vendas** de forma prática e eficiente.  
+
+O sistema foi cuidadosamente projetado para refletir as necessidades de um negócio real, incluindo:  
+- **Vitrine pública interativa**: exibe os carros disponíveis para venda com fotos, preços e descrições detalhadas.  
+- **Área administrativa robusta**: permite o cadastro e atualização de registros de veículos, clientes, vendedores e vendas.  
+- **Fluxo de vendas inteligente**: agiliza o processo de venda e mantém um histórico completo das transações.  
+- **Validação de dados e consistência**: impede vendas duplicadas, garante integridade referencial e formatação adequada de entradas como CPF, telefone, matrícula e valores monetários.  
+
+O projeto foi construído com tecnologias modernas e **conteinerizado com Docker**, garantindo que qualquer pessoa possa executá-lo localmente ou em produção de forma consistente, sem a complexidade de instalar e configurar manualmente cada dependência.  
+
+Além disso, a aplicação segue uma arquitetura **modular e escalável**, separando claramente **frontend, backend e banco de dados**, facilitando futuras expansões, manutenção e integração com novos serviços.
+
+---
+
+## Arquitetura
+
+A aplicação é organizada em três principais serviços, definidos no `docker-compose.yml`:
+
+- **Backend (classic-car-api)**  
+  - Desenvolvido em **Java 17+** com **Spring Boot 3.x**.  
+  - Exposição de **API RESTful** para operações de CRUD.  
+  - Camadas: `controller`, `service`, `repository` e `model`.  
+  - Porta: `8080`.
+
+- **Frontend (classic-car-frontend)**  
+  - Desenvolvido em **HTML5, CSS3 e JavaScript (ES6+)**.  
+  - Exibe a vitrine pública de carros e integra com a API.  
+  - Servido pelo **Nginx**.  
+  - Porta: `5173`.
+
+- **Banco de Dados (db)**  
+  - Utiliza **PostgreSQL**.  
+  - Gerencia todas as entidades (Carros, Clientes, Vendedores e Vendas).  
+  - Porta: `5432`.
+
+---
+
+## Fluxo de Dados
+
+```mermaid
+flowchart LR
+    U[Usuário] -->|Acessa site| FE[Frontend - Nginx]
+    FE -->|Requisições HTTP (fetch)| BE[Backend - Spring Boot]
+    BE -->|Consultas SQL| DB[(PostgreSQL)]
+    DB -->|Respostas (dados)| BE
+    BE -->|JSON| FE
+    FE -->|Renderização dinâmica| U
+````
+## Fluxo de Funcionamento
+
+1. O usuário acessa [http://localhost:5173](http://localhost:5173) (frontend).  
+2. O frontend realiza chamadas `fetch()` para a API backend em [http://localhost:8080](http://localhost:8080).  
+3. O backend processa a requisição e consulta o **PostgreSQL**.  
+4. Os dados retornam em **JSON** e são renderizados dinamicamente no navegador.  
 
 ---
 
 ## Tecnologias Utilizadas
 
-- **Java 17+**
-- **Spring Boot 3.x**
-  - Spring Web
-  - Spring Data JPA
-  - Validation
-- **PostgreSQL**
+### Backend
+- **Java 17+**  
+- **Spring Boot 3.x** (Spring Web, Spring Data JPA, Validation)  
+- **PostgreSQL**  
 - **Maven**
-- **Lombok** (facilita getters/setters e construtores)
-- **Hibernate** (implementação JPA)
-- **Docker**
+
+### Frontend
+- **HTML5, CSS3, JavaScript (ES6+)**  
+- **IMask.js** (máscara de inputs)  
+- **Nginx**
+
+### Infraestrutura
+- **Docker** e **Docker Compose**
 
 ---
 
-## Estrutura do Projeto
-``` properties
-classic-car-crud-api
-├── src/main/java/com/example/classic_car_crud_api
-│ ├── controller # Endpoints REST
-│ ├── exception # Exceções personalizadas
-│ ├── model # Entidades (Cliente, Vendedor, CarroAntigo, Venda)
-│ ├── repository # Interfaces JPA
-│ └── service # Lógica de negócio
-└── src/main/resources
-  └── application.properties # Configurações do PostgreSQL
-└── Dockerfile
-└── docker-compose.yml
-└── .env # Variáveis sensíveis (usuário e senha do banco)
-```
----
+## Configuração e Execução
 
-## Configuração do Banco de Dados
+### Pré-requisitos
+- Docker e Docker Compose instalados.  
+- Repositório clonado localmente.  
 
-Edite o arquivo `src/main/resources/application.properties`:
-
-```properties
-spring.application.name=concessionaria
-
-# PostgreSQL
-spring.datasource.url=${DB_URL}
-spring.datasource.username=${DB_USERNAME}
-spring.datasource.password=${DB_PASSWORD}
-
-# JPA / Hibernate
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-```
-### No arquivo .env (não versionado, adicionado ao .gitignore) coloque suas credenciais sensíveis:
-
+### Variáveis de Ambiente
+Crie o arquivo `.env` na raiz do projeto:
 ```bash
 DB_NAME=concessionaria
-DB_USERNAME=seu_usuario
-DB_PASSWORD=sua_senha
-DB_HOST=localhost
+DB_USERNAME=seu_usuario_postgres
+DB_PASSWORD=sua_senha_postgres
+DB_HOST=db
 DB_PORT=5432
 ```
----
 
-## Docker e Docker Compose
+### Inicialização
 
-Para garantir consistência, isolamento e facilidade de deploy, o projeto usa **Docker**:
-
-- **Dockerfile:** cria uma imagem da aplicação Spring Boot. Primeiro constrói com Maven e Java 21, depois gera uma imagem leve contendo apenas o `.jar`.
-
-- **docker-compose.yml:** orquestra múltiplos containers, incluindo a API e o banco PostgreSQL. Configura volumes persistentes e mapeia portas, garantindo que a API só inicie quando o banco estiver pronto.
-
-### Rodando com Docker
-
+Na raiz do repositório:
 ```bash
 docker compose up --build -d
 ```
-- Toda vez que fizer alterações no código, use --build para reconstruir a imagem.
 
-- Para desligar e limpar volumes:
+### Acesso
 
-```bash
-docker compose down -v
+- **Backend:** [http://localhost:8080](http://localhost:8080)  
+- **Frontend:** [http://localhost:5173](http://localhost:5173)  
+
+### Funcionalidades
+
+- Cadastro de **Carros, Clientes, Vendedores e Vendas**  
+- **CRUD completo** via API RESTful  
+- **Prevenção de vendas duplicadas** (um carro vendido não pode ser vendido novamente)  
+- **Upload de imagens** de veículos armazenadas no diretório `uploads/`  
+- **Validações automáticas** (tamanho de campos, formatos, integridade referencial)  
+- **Fluxo completo:** cadastro → listagem → venda → registro
+
+```markdown
+## Testes
+
+Funcionalidades testadas via:  
+- Insomnia (requisições HTTP)  
+- cURL no terminal  
+- psql (consulta direta no banco)  
+
+### Exemplos de consultas no banco
+
+- Acessar o PostgreSQL dentro do container  
+```sql
+docker exec -it postgres_db_concessionaria psql -U seu_usuario_postgres -d concessionaria
 ```
 
-- "Ligar" docker:
+- Listar tabelas
 
-```bash
-docker-compose up -d
+```sql
+\dt
 ```
 
-- "Desligar" docker:
+- Ver carros cadastrados 
 
-```bash
-docker compose down
-``` 
-
---- 
-
-## Importância do Docker nesse Projeto
-
-- **Garante consistência:** funciona igual em qualquer máquina.  
-- **Facilita o deploy:** imagens prontas para produção.  
-- **Mantém isolamento:** API e banco em containers separados.  
-- **Permite recuperação rápida:** volumes persistem dados mesmo que containers sejam recriados.  
-- **Facilita arquitetura de software moderna:** separação de responsabilidades entre serviços e infraestrutura versionada.
-
-*A API estará disponível em: http://localhost:8080*
-
-## Endpoints Principais
-
-### Clientes
-- POST `/clientes` → Cadastrar cliente
-- GET `/clientes` → Listar clientes
-- GET `/clientes/{id}` → Buscar cliente por ID
-- DELETE `/clientes/{id}` → Remover cliente
-
-### Vendedores
-- POST `/vendedores` → Cadastrar vendedor
-- GET `/vendedores` → Listar vendedores
-
-### Carros
-- POST `/carros` → Cadastrar carro
-- GET `/carros` → Listar carros
-- PUT `/carros/{id}` → Atualizar carro
-
-### Vendas
-- POST `/vendas` → Registrar venda
-- GET `/vendas` → Listar vendas
-- GET `/vendas/{id}` → Buscar venda por ID
-- DELETE `/vendas/{id}` → Remover venda
-
----
-
-## Principais Dificuldades e Correções
-
-Durante o desenvolvimento deste projeto, encontrei algumas dificuldades e erros comuns, que exigiram atenção especial e ajustes na implementação. Abaixo estão os principais pontos:
-
-### 1. Compatibilidade de Dependências
-**Problema:** Ao iniciar o projeto com Spring Boot 3.x, algumas dependências, como JPA e PostgreSQL, geravam conflitos de versão no `pom.xml`.  
-**Solução:** Ajustei as versões das dependências no `pom.xml` para garantir compatibilidade com o Spring Boot 3.x e o Java 17, evitando conflitos de compilação e runtime.
-
-### 2. Regra de Negócio da Venda
-**Problema:** Inicialmente, era possível registrar vendas múltiplas para o mesmo carro, quebrando a lógica de negócio.  
-**Solução:** No `VendaService`, implementei uma validação que verifica se o carro já foi vendido antes de salvar a venda. Caso o carro já tenha status `"VENDIDO"`, uma exceção `BusinessRuleException` é lançada. Caso contrário, o status do carro é atualizado para `"VENDIDO"` e a venda é registrada.
-
-### 3. Relacionamentos entre Entidades
-**Problema:** Erros de serialização JSON devido a relacionamentos bidirecionais entre `Venda`, `CarroAntigo`, `Cliente` e `Vendedor`.  
-**Solução:** Usei as anotações `@JsonManagedReference` e `@JsonBackReference` nas entidades para evitar loops infinitos na serialização JSON e permitir o correto retorno de dados via API.
-
-### 4. Validação de Dados
-**Problema:** Algumas requisições poderiam ser feitas com campos nulos ou inválidos, quebrando a aplicação.  
-**Solução:** Adicionei validações nas entidades usando `@NotBlank`, `@NotNull`, `@Size` e `@Positive` para garantir que os dados obrigatórios fossem preenchidos corretamente antes de persistir no banco.
-
-### 5. Testes de Endpoints
-**Problema:** Inicialmente, nem todos os endpoints estavam respondendo como esperado, principalmente ao criar vendas ou deletar registros.  
-**Solução:** Testei todas as rotas usando o Insomnia e ajustei o código para tratar exceções como `ResourceNotFoundException` e `BusinessRuleException`. Isso garantiu que a API retornasse mensagens claras de erro quando necessário.
-
----
-
-## Testes no Banco via Terminal PostgreSQL
-## Usando o Terminal (psql)
-
-Se você já tem o PostgreSQL instalado ou está rodando via Docker, pode usar o `psql` para acessar o banco:
-## Acessando via container Docker
-
-```bash
-docker exec -it postgres_db_concessionaria psql -U $DB_USERNAME -d $DB_NAME
-````
-
-### Comandos SQL básicos
--- Listar todos os clientes
-
-```bash
-SELECT * FROM cliente;
-```
--- Listar todos os vendedores
-
-```bash
-SELECT * FROM vendedor;
-```
-
--- Listar todos os carros antigos
-
-```bash
+```sql
 SELECT * FROM carro_antigo;
 ```
 
--- Listar todas as vendas
+- Ver todas as vendas  
 
-```bash
+```sql
 SELECT * FROM venda;
 ```
 
-*Esses comandos permitem conferir se os dados estão sendo inseridos corretamente pela API.*.
+- Sair
+```
+\q
+```
 ---
 
 ## Conclusão
-Apesar das dificuldades iniciais com versões, validação e relacionamentos complexos, a implementação final do projeto garante:
 
-- Integridade das regras de negócio (ex: não vender carro já vendido).
-- Estrutura de projeto clara e organizada em camadas.
-- Retorno consistente de dados pela API.
-- Validações automáticas de dados, reduzindo erros durante a operação.
+Este projeto exemplifica a construção de uma aplicação **full-stack moderna e profissional**, unindo um **frontend leve e interativo**, um **backend robusto e seguro** e um **banco de dados relacional confiável**, tudo executando em um ambiente **conteinerizado com Docker**, garantindo portabilidade, consistência e facilidade de manutenção.  
 
-Esses ajustes são fundamentais para que o sistema funcione de forma confiável e mantenha a lógica de negócio correta.
+Além de reproduzir fielmente as operações de uma concessionária real, o sistema foi projetado com **arquitetura modular e escalável**, oferecendo uma base sólida para futuras evoluções, como:  
+- Implementação de **autenticação e controle de acesso**;  
+- Criação de **dashboards analíticos** para monitoramento de vendas e desempenho;  
+- Geração de **relatórios gerenciais**;  
+- Integração com **APIs externas** e serviços adicionais.  
 
-### Autor
+Dessa forma, o projeto não apenas cumpre os objetivos funcionais iniciais, mas também estabelece um padrão de desenvolvimento profissional, pronto para expansão e adaptação a novos requisitos.
 
-Gabriel Azevedo  
-Engenharia de Computação - UFU
