@@ -31,6 +31,9 @@ services:
       volumes:
         - ./classic-car-api/src:/app/src
         - ./classic-car-api/pom.xml:/app/pom.xml
+        # ===== LINHA ADICIONADA =====
+        # Mapeia a pasta 'uploads' de dentro do container para fora
+        - ./classic-car-api/uploads:/app/uploads
 
   frontend:
     build: ./classic-car-frontend

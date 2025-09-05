@@ -4,16 +4,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.LocalDate;
 
 @Data
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
 public class Venda {
 
     @Id
@@ -23,16 +18,19 @@ public class Venda {
     @NotNull(message = "O carro é obrigatório")
     @ManyToOne
     @JoinColumn(name = "carro_id")
+    @JsonBackReference("carro-vendas")
     private CarroAntigo carro;
 
     @NotNull(message = "O cliente é obrigatório")
     @ManyToOne
     @JoinColumn(name = "cliente_id")
+    @JsonBackReference("cliente-vendas")
     private Cliente cliente;
 
     @NotNull(message = "O vendedor é obrigatório")
     @ManyToOne
     @JoinColumn(name = "vendedor_id")
+    @JsonBackReference("vendedor-vendas")
     private Vendedor vendedor;
 
     @NotNull(message = "A data é obrigatória")

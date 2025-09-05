@@ -1,130 +1,173 @@
-/* ===== Tipografia e cores gerais ===== */
+/* Estilos Gerais */
 body {
-    font-family: 'Georgia', serif;
-    background-color: #f5f0e6; /* bege claro */
-    color: #3e2f1c; /* marrom escuro */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
-    padding: 0 2rem;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
 }
 
-h1, h2 {
-    font-family: 'Palatino Linotype', 'Book Antiqua', serif;
-    color: #5c4033;
-}
-
-/* ===== Navegação ===== */
 nav {
-    background-color: #8b5e3c; /* marrom médio */
-    padding: 1rem;
-    margin-bottom: 2rem;
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    background-color: #222;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 nav a {
-    color: #f5f0e6;
+    color: #fff;
     text-decoration: none;
-    margin-right: 1.5rem;
-    font-weight: bold;
+    margin: 0 20px;
+    font-weight: 500;
+    transition: color 0.3s;
 }
 
 nav a:hover {
-    color: #ffd27f;
+    color: #4a90e2;
 }
 
-/* ===== Tabelas ===== */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 2rem;
-    background-color: #fff5e6;
-    border: 1px solid #8b5e3c;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+.banner {
+    background-color: #333;
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    padding: 60px 20px;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
-th, td {
-    padding: 0.75rem;
-    text-align: left;
-    border-bottom: 1px solid #8b5e3c;
+.banner h1 {
+    font-size: 2.5em;
+    margin: 0 0 10px;
 }
 
-th {
-    background-color: #8b5e3c;
-    color: #fff5e6;
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-tr:hover {
-    background-color: #ffd27f33; /* leve destaque no hover */
+/* Seções de Formulário e Tabela */
+.form-section, .table-section {
+    background: white;
+    margin-bottom: 30px;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* ===== Formulários ===== */
+h2 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Estilos do Formulário */
 form {
-    background-color: #fff5e6;
-    padding: 1rem;
-    margin-bottom: 2rem;
-    border-radius: 10px;
-    border: 1px solid #8b5e3c;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 }
 
 form label {
     display: block;
-    margin: 0.5rem 0;
-    font-weight: bold;
+    margin-bottom: 5px;
+    font-weight: 600;
 }
 
-form input, form select {
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form textarea {
     width: 100%;
-    padding: 0.5rem;
-    margin-top: 0.25rem;
-    border-radius: 5px;
-    border: 1px solid #8b5e3c;
-    background-color: #fdf6ec;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Garante que o padding não aumente a largura */
+}
+
+form textarea {
+    resize: vertical;
 }
 
 form button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #8b5e3c;
-    color: #fff5e6;
+    padding: 12px 20px;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-weight: bold;
+    font-size: 1em;
+    transition: background-color 0.3s;
+    grid-column: 1 / -1; /* Ocupa todas as colunas */
 }
 
-form button:hover {
-    background-color: #5c4033;
+form button[type="submit"] {
+    background-color: #28a745; /* Verde */
 }
 
-/* ===== Lista de vendas ===== */
-#vendasList {
-    list-style: none;
-    padding: 0;
+form button[type="submit"]:hover {
+    background-color: #218838;
 }
 
-#vendasList li {
-    background-color: #fff5e6;
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-    border-left: 5px solid #8b5e3c;
-    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+#cancelButton {
+    background-color: #6c757d; /* Cinza */
 }
 
-/* ===== Responsividade ===== */
-@media (max-width: 768px) {
-    body {
-        padding: 0 1rem;
-    }
+#cancelButton:hover {
+    background-color: #5a6268;
+}
 
-    nav a {
-        display: block;
-        margin-bottom: 0.5rem;
-    }
+/* Estilos da Tabela */
+.table-container {
+    overflow-x: auto; /* Garante responsividade em telas menores */
+}
 
-    th, td {
-        font-size: 0.9rem;
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Botões de Ação na Tabela */
+.edit-btn, .delete-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.edit-btn {
+    background-color: #007bff; /* Azul */
+}
+
+.edit-btn:hover {
+    background-color: #0056b3;
+}
+
+.delete-btn {
+    background-color: #dc3545; /* Vermelho */
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
 }

@@ -1,0 +1,81 @@
+/* Estilos para a grade da vitrine */
+.vitrine-grid {
+    display: grid;
+    /* Cria colunas responsivas: elas terão no mínimo 300px e se ajustarão ao espaço */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px; /* Espaçamento entre os cards */
+    padding: 20px;
+}
+
+/* Estilos para cada card de carro */
+.carro-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
+    overflow: hidden; /* Garante que a imagem não ultrapasse as bordas arredondadas */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carro-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.carro-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /* Faz a imagem cobrir o espaço sem distorcer */
+}
+
+/* Conteúdo de texto dentro do card */
+.card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Faz esta área crescer para ocupar o espaço disponível */
+}
+
+.card-content h3 {
+    margin: 0 0 5px;
+    font-size: 1.4em;
+    color: #333;
+}
+
+.card-content .ano {
+    font-size: 0.9em;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.card-content .descricao {
+    font-size: 1em;
+    color: #555;
+    flex-grow: 1; /* Empurra o preço e o botão para o final */
+    margin-bottom: 20px;
+}
+
+.card-content .preco {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #28a745; /* Verde */
+    margin-bottom: 15px;
+}
+
+.card-content button {
+    padding: 12px 20px;
+    background-color: #007bff; /* Azul */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    text-align: center;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.card-content button:hover {
+    background-color: #0056b3;
+}

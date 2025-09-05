@@ -52,4 +52,14 @@ public class VendaController {
         vendaService.deletar(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/cliente/{clienteId}")
+    public ResponseEntity<List<Venda>> findByCliente(@PathVariable Long clienteId) {
+        return ResponseEntity.ok(vendaService.buscarPorCliente(clienteId));
+    }
+
+    @GetMapping("/vendedor/{vendedorId}")
+    public ResponseEntity<List<Venda>> findByVendedor(@PathVariable Long vendedorId) {
+        return ResponseEntity.ok(vendaService.buscarPorVendedor(vendedorId));
+    }
 }

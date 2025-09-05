@@ -1,62 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Classic Car - Home</title>
-  <link rel="stylesheet" href="css/carros.css">
+    <meta charset="UTF-8">
+    <title>Classic Car - Concessionária de Carros Antigos</title>
+    <link rel="stylesheet" href="css/style.css"> <!-- Estilo geral -->
+    <link rel="stylesheet" href="css/loja.css">  <!-- Reutilizando o estilo da loja -->
 </head>
 <body>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="carros.html">CRUD Carros</a>
-    <a href="clientes.html">Clientes</a>
-    <a href="vendas.html">Vendas</a>
-    <a href="vendedores.html">Vendedores</a>
-    <a href="loja.html">Loja</a>
-  </nav>
+    <!-- O cabeçalho será inserido aqui pelo header.js -->
+    <header id="header-placeholder"></header>
 
-  <h1>Bem-vindo à Classic Car</h1>
-  <h2>Carros Disponíveis</h2>
-  <div id="carros-container" class="carros-grid"></div>
+    <header class="banner" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop');">
+        <h1>Bem-vindo à Classic Car</h1>
+        <p>O seu destino para encontrar relíquias automotivas.</p>
+    </header>
 
-  <script>
-    const API_URL = "http://localhost:8080/carros";
+    <main>
+        <h2 style="text-align: center; font-size: 2em; margin: 40px 0;">Destaques à Venda</h2>
+        <!-- O container onde os carros serão exibidos -->
+        <div id="home-vitrine" class="vitrine-grid">
+            <!-- Os cards dos carros serão inseridos aqui pelo JavaScript -->
+        </div>
+    </main>
 
-    async function carregarCarrosVitrine() {
-      const container = document.getElementById("carros-container");
-      if (!container) return;
-
-      try {
-        const res = await fetch(API_URL);
-        const carros = await res.json();
-        container.innerHTML = "";
-
-        carros.forEach(carro => {
-          // Se não houver imagem, usar placeholder
-          const imagemUrl = carro.imagem && carro.imagem !== "" ? carro.imagem : "https://via.placeholder.com/220x120?text=Sem+Imagem";
-
-          const card = document.createElement("div");
-          card.className = "carro-card-loja";
-          card.innerHTML = `
-            <img src="${imagemUrl}" alt="${carro.modelo}">
-            <h3>${carro.marca} ${carro.modelo} (${carro.ano})</h3>
-            <p>${carro.descricao}</p>
-            <p>R$ ${carro.preco.toFixed(2)}</p>
-            <p><b>Frete grátis! Retire seu carro hoje mesmo.</b></p>
-            <button onclick="comprarCarro(${carro.id})">Comprar</button>
-          `;
-          container.appendChild(card);
-        });
-      } catch (err) {
-        console.error("Erro ao carregar carros:", err);
-      }
-    }
-
-    function comprarCarro(id) {
-      window.location.href = `vendas.html?carroId=${id}`;
-    }
-
-    window.addEventListener("DOMContentLoaded", carregarCarrosVitrine);
-  </script>
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
+

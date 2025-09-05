@@ -2,43 +2,64 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Registrar Vendas - Classic Car</title>
+    <title>Registar Venda - Classic Car</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/vendas.css">
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="carros.html">Carros</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="vendas.html">Vendas</a>
-        <a href="vendedores.html">Vendedores</a>
-        <a href="loja.html">Loja</a>
-    </nav>
+    <!-- O cabeçalho será inserido aqui pelo header.js -->
+    <header id="header-placeholder"></header>
 
-    <h1>Registrar Venda</h1>
+    <header class="page-header">
+        <h1>Registar Venda</h1>
+        <p>Preencha os dados abaixo para concluir a negociação.</p>
+    </header>
 
-    <form id="vendaForm">
-        <label for="carroId">Carro:</label>
-        <select id="carroId" required></select><br>
+    <main>
+        <div class="venda-container">
+            <!-- Detalhes do carro selecionado -->
+            <section id="carro-selecionado-detalhes" class="carro-details-card" style="display: none;">
+                <!-- Conteúdo preenchido por JS -->
+            </section>
 
-        <label for="clienteId">Cliente:</label>
-        <select id="clienteId" required></select><br>
+            <!-- Formulário de Venda -->
+            <section class="form-section">
+                <h2>Dados da Venda</h2>
+                <!-- Adicionada a classe form-grid para alinhar os campos -->
+                <form id="vendaForm" class="form-grid">
+                    <label for="carroId">Carro:</label>
+                    <select id="carroId" required></select>
 
-        <label for="vendedorId">Vendedor:</label>
-        <select id="vendedorId" required></select><br>
+                    <label for="clienteId">Cliente:</label>
+                    <select id="clienteId" required></select>
 
-        <label for="data">Data da Venda:</label>
-        <input type="date" id="data" required><br>
+                    <label for="vendedorId">Vendedor:</label>
+                    <select id="vendedorId" required></select>
 
-        <label for="valor">Valor:</label>
-        <input type="number" id="valor" step="0.01" required><br><br>
+                    <label for="data">Data da Venda:</label>
+                    <input type="date" id="data" required>
 
-        <button type="submit">Registrar Venda</button>
-    </form>
+                    <label for="valor">Valor (R$):</label>
+                    <input type="number" id="valor" step="0.01" required>
 
-    <h2>Vendas Registradas</h2>
-    <ul id="vendasList"></ul>
+                    <!-- O botão fica fora da grelha para ocupar a largura total -->
+                    <button type="submit" class="submit-btn">Registar Venda</button>
+                </form>
+            </section>
 
+             <!-- Histórico de Vendas -->
+             <section class="historico-vendas">
+                <h2>Histórico de Vendas Recentes</h2>
+                <div id="vendas-container" class="vendas-grid">
+                    <!-- Cards de vendas inseridos via JS -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
     <script src="js/vendas.js"></script>
 </body>
 </html>
+

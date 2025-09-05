@@ -1,53 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Vendedores</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <title>Gerir Vendedores - Classic Car</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css"> <!-- CSS partilhado -->
+    <link rel="stylesheet" href="css/modal.css">  <!-- CSS do novo modal -->
 </head>
 <body>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="carros.html">Carros</a>
-    <a href="clientes.html">Clientes</a>
-    <a href="vendas.html">Vendas</a>
-    <a href="vendedores.html">Vendedores</a>
-  </nav>
+    <!-- O cabeçalho será inserido aqui pelo header.js -->
+    <header id="header-placeholder"></header>
 
-  <main>
-    <h1>Lista de Vendedores</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Matrícula</th>
-          <th>Contato</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody id="vendedores-table-body"></tbody>
-    </table>
+    <main class="admin-page">
+        <h1>Gestão de Vendedores</h1>
 
-    <h2>Adicionar Novo Vendedor</h2>
-    <form id="vendedor-form">
-      <label>Nome: <input type="text" id="nome" required></label>
-      <label>Matrícula: <input type="text" id="matricula" required></label>
-      <label>Contato: <input type="text" id="contato" required></label>
-      <button type="submit">Adicionar Vendedor</button>
-    </form>
+        <div class="admin-container">
+            <!-- Formulário para Adicionar/Editar -->
+            <div class="form-container">
+                <h2 id="form-title">Adicionar Novo Vendedor</h2>
+                <form id="vendedor-form">
+                    <input type="hidden" id="vendedorId">
+                    
+                    <label for="nome">Nome Completo:</label>
+                    <input type="text" id="nome" required>
+                    
+                    <label for="matricula">Matrícula:</label>
+                    <input type="text" id="matricula" required>
 
-    <h2>Editar Vendedor</h2>
-    <form id="editar-vendedor-form" style="display:none;">
-      <input type="hidden" id="edit-id">
-      <label>Nome: <input type="text" id="edit-nome" required></label>
-      <label>Matrícula: <input type="text" id="edit-matricula" required></label>
-      <label>Contato: <input type="text" id="edit-contato" required></label>
-      <button type="submit">Salvar Alterações</button>
-      <button type="button" onclick="cancelarEdicaoVendedor()">Cancelar</button>
-    </form>
-  </main>
+                    <label for="contato">Contacto (Telefone/Email):</label>
+                    <input type="text" id="contato">
+                    
+                    <button type="submit">Guardar</button>
+                    <button type="button" id="cancel-edit-btn" style="display: none;">Cancelar Edição</button>
+                </form>
+            </div>
 
-  <script src="./js/vendedores.js"></script>
+            <!-- Tabela de Vendedores -->
+            <div class="table-container">
+                <h2>Vendedores Registados</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Matrícula</th>
+                            <th>Contacto</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vendedores-table-body">
+                        <!-- Linhas inseridas via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Estrutura do Modal de Confirmação -->
+    <div id="confirm-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <p id="modal-text">Tem a certeza de que deseja excluir este vendedor?</p>
+            <div class="modal-buttons">
+                <button id="modal-cancel-btn">Cancelar</button>
+                <button id="modal-confirm-btn">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
+    <script src="js/vendedores.js"></script>
 </body>
 </html>
+

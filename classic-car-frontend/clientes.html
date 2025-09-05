@@ -1,55 +1,78 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>CRUD Clientes</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <title>Gerir Clientes - Classic Car</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css"> <!-- CSS partilhado da área de gestão -->
+    <link rel="stylesheet" href="css/modal.css">  <!-- CSS para o novo modal -->
 </head>
 <body>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="carros.html">Carros</a>
-    <a href="clientes.html">Clientes</a>
-    <a href="vendas.html">Vendas</a>
-    <a href="vendedores.html">Vendedores</a>
-    <a href="loja.html">Loja</a>
-  </nav>
+    <!-- O cabeçalho será carregado dinamicamente aqui -->
+    <header id="header-placeholder"></header>
 
-  <h1>CRUD Clientes</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>CPF</th>
-        <th>Contato</th>
-        <th>Endereço</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody id="clientes-table-body"></tbody>
-  </table>
+    <main class="admin-page">
+        <h1>Gestão de Clientes</h1>
 
-  <h2>Adicionar Novo Cliente</h2>
-  <form id="cliente-form">
-    <input type="text" id="nome" placeholder="Nome" required>
-    <input type="text" id="cpf" placeholder="CPF" required>
-    <input type="text" id="contato" placeholder="Contato" required>
-    <input type="text" id="endereco" placeholder="Endereço" required>
-    <button type="submit">Adicionar Cliente</button>
-  </form>
+        <div class="admin-container">
+            <!-- Formulário para Adicionar/Editar -->
+            <div class="form-container">
+                <h2 id="form-title">Adicionar Novo Cliente</h2>
+                <form id="cliente-form">
+                    <input type="hidden" id="clienteId">
+                    
+                    <label for="nome">Nome Completo:</label>
+                    <input type="text" id="nome" required>
+                    
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" required>
 
-  <h2>Editar Cliente</h2>
-  <form id="editar-form" style="display:none;">
-    <input type="hidden" id="edit-id">
-    <input type="text" id="edit-nome" placeholder="Nome" required>
-    <input type="text" id="edit-cpf" placeholder="CPF" required>
-    <input type="text" id="edit-contato" placeholder="Contato" required>
-    <input type="text" id="edit-endereco" placeholder="Endereço" required>
-    <button type="submit">Salvar Alterações</button>
-    <button type="button" onclick="cancelarEdicao()">Cancelar</button>
-  </form>
+                    <label for="contato">Contacto (Telefone/Email):</label>
+                    <input type="text" id="contato">
+                    
+                    <label for="endereco">Endereço:</label>
+                    <input type="text" id="endereco">
+                    
+                    <button type="submit">Guardar</button>
+                    <button type="button" id="cancel-edit-btn" style="display: none;">Cancelar Edição</button>
+                </form>
+            </div>
 
-  <script src="js/clientes.js"></script>
-</body>
-</html>
+            <!-- Tabela de Clientes -->
+            <div class="table-container">
+                <h2>Clientes Registados</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Contacto</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientes-table-body">
+                        <!-- Linhas inseridas via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Estrutura do Modal de Confirmação -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Confirmar Exclusão</h2>
+            <p>Tem a certeza de que deseja excluir este registo? Esta ação não pode ser desfeita.</p>
+            <div class="modal-buttons">
+                <button id="modal-cancel-btn" class="modal-btn cancel">Cancelar</button>
+                <button id="modal-confirm-btn" class="modal-btn confirm">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
+    <script src
+

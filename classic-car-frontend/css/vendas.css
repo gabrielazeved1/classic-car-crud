@@ -1,0 +1,146 @@
+/* Estilos gerais da página de vendas */
+body {
+    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    margin: 0;
+}
+
+/* Cabeçalho da página */
+.page-header {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+.page-header p {
+    margin-top: 0.5rem;
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.venda-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Card de detalhes do carro selecionado */
+.carro-details-card {
+    display: flex;
+    gap: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    align-items: center;
+}
+
+.carro-details-card img {
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.carro-info h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 1.5em;
+}
+
+.carro-info p {
+    margin: 5px 0;
+}
+
+/* Secção do formulário */
+.form-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.form-section h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+/* A grelha que alinha o formulário */
+.form-grid {
+    display: grid;
+    /* Coluna 1 (label) auto-ajustável, Coluna 2 (input) ocupa o resto do espaço */
+    grid-template-columns: auto 1fr;
+    gap: 15px 20px; /* 15px de espaçamento vertical, 20px horizontal */
+    align-items: center; /* Alinha verticalmente os itens no centro de cada célula da grelha */
+}
+
+.form-grid label {
+    font-weight: bold;
+    text-align: right; /* Alinha os labels à direita para proximidade com os inputs */
+}
+
+.form-grid input,
+.form-grid select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box; /* Garante que padding não afete a largura total */
+}
+
+/* Botão de submissão */
+.submit-btn {
+    grid-column: 1 / -1; /* Faz o botão ocupar todas as colunas da grelha */
+    width: 100%;
+    padding: 12px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #229954;
+}
+
+/* Secção do histórico de vendas */
+.historico-vendas {
+    margin-top: 3rem;
+}
+
+.historico-vendas h2 {
+    text-align: center;
+    color: #333;
+}
+
+.vendas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.venda-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    border-left: 4px solid #27ae60;
+}
+
