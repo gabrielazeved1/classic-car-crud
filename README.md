@@ -41,7 +41,7 @@ A aplicação é organizada em três principais serviços, definidos no `docker-
 
 ## Fluxo de Dados
 
-```mermaid
+```txt
 flowchart LR
     U[Usuário] -->|Acessa site| FE[Frontend - Nginx]
     FE -->|Requisições HTTP (fetch)| BE[Backend - Spring Boot]
@@ -49,7 +49,8 @@ flowchart LR
     DB -->|Respostas (dados)| BE
     BE -->|JSON| FE
     FE -->|Renderização dinâmica| U
-````
+```
+
 ## Fluxo de Funcionamento
 
 1. O usuário acessa [http://localhost:5173](http://localhost:5173) (frontend).  
