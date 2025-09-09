@@ -9,16 +9,21 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.List;
 
+// @data e uma anotacao do lombok para gerar metodos como getters e setters. -> relaicona com model
 @Data
+// @entity indica que esta classe representa uma tabela na base de dados. -> relaciona com repository
 @Entity
 public class Vendedor {
 
+    // @id e @generatedvalue definem este campo como a chave primaria auto-incrementada.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // @notblank e @size sao validacoes para o campo nome.
     @NotBlank(message = "O nome não pode estar em branco")
     @Size(max = 100, message = "O nome deve ter no máximo 100 caracteres")
+    // @column mapeia este atributo para uma coluna com um limite de 100 caracteres.
     @Column(length = 100)
     private String nome;
 
@@ -31,7 +36,10 @@ public class Vendedor {
     @Column(length = 50)
     private String contato;
 
+    // @jsonmanagedreference e usado para gerir a serializacao json e evitar loops.
+    // este é o lado "pai" da relacao com venda.
     @JsonManagedReference("vendedor-vendas")
+    // @onetomany define que um vendedor pode estar associado a muitas vendas.
     @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Venda> vendas = new ArrayList<>();
 
