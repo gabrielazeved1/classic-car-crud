@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
-
+// diz para onde deve ir a foto
 // @service indica que esta e uma classe de servico gerida pelo spring.
 // a sua responsabilidade e exclusivamente lidar com o armazenamento. -> isso é basicamente para guardar as fotos
 @Service
