@@ -9,16 +9,21 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.List;
 
+// @data (lombok) gera getters, setters e outros metodos automaticamente
 @Data
+// @entity marca esta classe como uma tabela no banco de dados -> relaciona com repository
 @Entity
 public class Cliente {
 
+    // @id e @generatedvalue definem a chave primaria com auto-incremento.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // @notblank e @size sao regras de validacao para garantir que o nome nao e vazio e tem o tamanho certo.
     @NotBlank(message = "O nome não pode estar em branco")
     @Size(max = 100, message = "O nome deve ter no máximo 100 caracteres")
+    // @column mapeia o atributo para uma coluna na tabela.
     @Column(length = 100)
     private String nome;
 
@@ -35,7 +40,10 @@ public class Cliente {
     @Column(length = 200)
     private String endereco;
 
+    // @jsonmanagedreference resolve loops de serializacao json, marcando este lado como o "pai" da relacao.
     @JsonManagedReference("cliente-vendas")
+    // @onetomany: um cliente pode ter muitas vendas.
+    // 'mappedby' indica que a entidade 'venda' e a dona do relacionamento.
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Venda> vendas = new ArrayList<>();
 
