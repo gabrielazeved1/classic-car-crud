@@ -1,34 +1,45 @@
-// URL base da API e para as imagens
+// constantes que guardam os enderecos da api para buscar os carros e as imagens.
 const API_URL = "http://localhost:8080/carros";
 const IMG_BASE_URL = "http://localhost:8080/images/";
 
-// Elemento do DOM onde os cards serão inseridos
+// seleciona o elemento html onde os cards dos carros serao inseridos.
 const vitrineContainer = document.getElementById("carros-vitrine");
 
-// Função para carregar e exibir os carros na vitrine
+// --- funcoes principais ---
+
+// funcao assincrona para carregar e exibir os carros na vitrine da loja.
 async function carregarCarrosVitrine() {
     try {
+        // faz a requisicao http get para a api de carros.
         const response = await fetch(API_URL);
+        // verifica se a resposta foi bem-sucedida.
         if (!response.ok) throw new Error('Erro ao buscar os carros');
+        // converte a resposta para json.
         const carros = await response.json();
 
-        vitrineContainer.innerHTML = ""; // Limpa o container
+        vitrineContainer.innerHTML = ""; // limpa o conteudo atual da vitrine.
 
-        // Filtra para mostrar apenas carros com status "A_VENDA"
+        // filtra a lista de carros para mostrar apenas aqueles com o status "a_venda".
         const carrosAVenda = carros.filter(carro => carro.status === 'A_VENDA');
 
+        // se nao houver carros a venda, exibe uma mensagem.
         if (carrosAVenda.length === 0) {
             vitrineContainer.innerHTML = "<p>Nenhum carro à venda no momento.</p>";
             return;
         }
 
+        // percorre a lista de carros filtrada.
         carrosAVenda.forEach(carro => {
+            // para cada carro, cria um novo elemento 'div' que sera o card.
             const card = document.createElement("div");
-            card.className = "carro-card";
+            card.className = "carro-card"; // atribui a classe css para o estilo.
 
+            // constroi a url da imagem. se o carro nao tiver imagem, usa uma imagem padrao.
             const imagemSrc = carro.imagemUrl ? `${IMG_BASE_URL}${carro.imagemUrl}` : 'https://placehold.co/400x250?text=Sem+Foto';
+            // formata o preco para o padrao brasileiro.
             const precoFormatado = carro.preco ? carro.preco.toFixed(2).replace('.', ',') : "Consulte";
 
+            // preenche o conteudo do card com os dados do carro.
             card.innerHTML = `
                 <img src="${imagemSrc}" alt="${carro.marca} ${carro.modelo}">
                 <div class="card-content">
@@ -39,6 +50,7 @@ async function carregarCarrosVitrine() {
                     <button onclick="verDetalhes(${carro.id})">Mais Detalhes</button>
                 </div>
             `;
+            // adiciona o novo card a vitrine.
             vitrineContainer.appendChild(card);
         });
     } catch (error) {
@@ -47,13 +59,15 @@ async function carregarCarrosVitrine() {
     }
 }
 
-// Função placeholder para o botão "Mais Detalhes"
+// funcao chamada pelo botao "mais detalhes".
 function verDetalhes(id) {
-    // No futuro, isso pode levar a uma página de detalhes do carro
-    // Por enquanto, podemos redirecionar para a página de vendas
-    alert(`Redirecionando para a página de vendas do carro com ID: ${id}`);
+    // redireciona o utilizador para a pagina de vendas, passando o id do carro
+    // como um parametro na url. isto permite que a pagina de vendas saiba qual carro foi escolhido.
     window.location.href = `vendas.html?carroId=${id}`;
 }
 
-// Carrega os carros assim que a página é aberta
+// --- inicializacao ---
+
+// 'domcontentloaded' garante que o html foi totalmente carregado antes de executar o script.
 document.addEventListener("DOMContentLoaded", carregarCarrosVitrine);
+

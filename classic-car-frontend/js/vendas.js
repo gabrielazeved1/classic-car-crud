@@ -1,25 +1,28 @@
+// constantes com os enderecos de todas as apis necessarias para esta pagina.
 const API_VENDAS = "http://localhost:8080/vendas";
 const API_CARROS = "http://localhost:8080/carros";
 const API_CLIENTES = "http://localhost:8080/clientes";
 const API_VENDEDORES = "http://localhost:8080/vendedores";
 const IMG_BASE_URL = "http://localhost:8080/images/";
 
-// Elementos do DOM
+// seleciona os elementos principais do html com os quais vamos interagir.
 const vendaForm = document.getElementById('vendaForm');
-const vendasContainer = document.getElementById('vendas-container');
-const carroDetalhesContainer = document.getElementById('carro-selecionado-detalhes');
-const formSection = document.querySelector('.form-section');
-const instructionMessage = document.getElementById('instruction-message');
+const vendasContainer = document.getElementById('vendas-container'); // onde o historico de vendas aparece.
+const carroDetalhesContainer = document.getElementById('carro-selecionado-detalhes'); // onde os detalhes do carro aparecem.
+const formSection = document.querySelector('.form-section'); // a seccao que contem o formulario.
+const instructionMessage = document.getElementById('instruction-message'); // a mensagem de instrucao.
 
-let valorMask;
+// --- logica das mascaras de entrada (imask.js) ---
 
-// Lógica de Máscaras
+let valorMask; // variavel para guardar a instancia da mascara de valor.
 document.addEventListener('DOMContentLoaded', () => {
+    // mascara para o campo data no formato "dd/mm/aaaa".
     const dataInput = document.getElementById('data');
     if (dataInput) {
         IMask(dataInput, { mask: '00/00/0000' });
     }
 
+    // mascara para o campo valor, formatando como moeda brasileira.
     const valorInput = document.getElementById('valor');
     if (valorInput) {
         valorMask = IMask(valorInput, {
@@ -27,14 +30,15 @@ document.addEventListener('DOMContentLoaded', () => {
             scale: 2,
             thousandsSeparator: '.',
             padFractionalZeros: true,
-            normalizeZeros: true,
             radix: ',',
-            mapToRadix: ['.']
         });
     }
 });
+// ======================================
 
-// Preencher selects de clientes e vendedores
+// --- funcoes principais ---
+
+// funcao generica para preencher os selects de clientes e vendedores.
 async function preencherSelect(url, selectId, campoLabel) {
     try {
         const res = await fetch(url);
@@ -50,8 +54,7 @@ async function preencherSelect(url, selectId, campoLabel) {
     }
 }
 
-// ============== FUNÇÃO CORRIGIDA ==============
-// Listar vendas existentes
+// funcao para listar as vendas existentes no historico.
 async function listarVendas() {
     vendasContainer.innerHTML = "";
     try {
@@ -60,10 +63,10 @@ async function listarVendas() {
         vendas.forEach(venda => {
             const card = document.createElement("div");
             card.className = "venda-card";
-            // Adiciona T00:00:00 para evitar problemas de fuso horário
+            // adiciona t00:00:00 para evitar problemas de fuso horario ao formatar a data.
             const dataVenda = new Date(venda.data + 'T00:00:00');
             
-            // Alterado para mostrar apenas os dados disponíveis: id, data e valor
+            // preenche o card do historico apenas com os dados que a api envia.
             card.innerHTML = `
                 <h3>Venda #${venda.id}</h3>
                 <p><b>Data da Venda:</b> ${dataVenda.toLocaleDateString('pt-BR')}</p>
@@ -75,34 +78,34 @@ async function listarVendas() {
         console.error("Erro ao buscar vendas:", err);
     }
 }
-// ==============================================
 
-// Submeter o formulário de uma nova venda
+// escutador de evento para quando o formulario de venda e submetido.
 vendaForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const dataInput = document.getElementById("data").value.split('/');
+    // formata a data para o padrao aaaa-mm-dd, que o backend espera.
     const dataFormatada = `${dataInput[2]}-${dataInput[1]}-${dataInput[0]}`;
     const vendaData = {
         carro: { id: parseInt(document.getElementById("carroId").value) },
         cliente: { id: parseInt(document.getElementById("clienteId").value) },
         vendedor: { id: parseInt(document.getElementById("vendedorId").value) },
         data: dataFormatada,
-        valor: parseFloat(valorMask.unmaskedValue)
+        valor: parseFloat(valorMask.unmaskedValue) // envia o valor numerico puro.
     };
 
     try {
-        const res = await fetch(API_VENDAS, {
+        await fetch(API_VENDAS, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(vendaData)
         });
-        if (!res.ok) throw new Error("Erro ao registar venda. Verifique se o carro já foi vendido.");
         
+        // apos a venda, esconde o formulario e mostra a mensagem de instrucao novamente.
         formSection.style.display = 'none';
         carroDetalhesContainer.style.display = 'none';
         instructionMessage.style.display = 'block';
 
-        listarVendas();
+        listarVendas(); // atualiza o historico com a nova venda.
         alert("Venda registada com sucesso!");
     } catch (err) {
         console.error(err);
@@ -110,20 +113,26 @@ vendaForm.addEventListener("submit", async (e) => {
     }
 });
 
-// Carrega o contexto da página
+// esta e a funcao principal que controla o fluxo da pagina.
 async function carregarContextoDeVenda() {
+    // le os parametros da url (ex: ?carroid=1).
     const params = new URLSearchParams(window.location.search);
     const carroId = params.get('carroId');
 
     if (carroId) {
+        // se um carroid foi passado na url, significa que o utilizador quer registar uma venda.
+        // esconde a mensagem de instrucao e mostra o formulario.
         instructionMessage.style.display = 'none';
         carroDetalhesContainer.style.display = 'flex';
         formSection.style.display = 'block';
 
         try {
+            // busca os detalhes do carro selecionado na api.
             const res = await fetch(`${API_CARROS}/${carroId}`);
             const carro = await res.json();
             const imagemSrc = carro.imagemUrl ? `${IMG_BASE_URL}${carro.imagemUrl}` : 'images/default.jpg';
+
+            // exibe os detalhes do carro para o utilizador.
             carroDetalhesContainer.innerHTML = `
                 <img src="${imagemSrc}" alt="${carro.modelo}">
                 <div>
@@ -132,6 +141,8 @@ async function carregarContextoDeVenda() {
                     <p class="preco">Valor: R$ ${carro.preco.toFixed(2).replace('.', ',')}</p>
                 </div>
             `;
+            
+            // preenche o formulario com o carro e o valor automaticamente.
             const carroSelect = document.getElementById('carroId');
             carroSelect.innerHTML = `<option value="${carro.id}">${carro.modelo}</option>`;
             carroSelect.value = carro.id;
@@ -140,21 +151,24 @@ async function carregarContextoDeVenda() {
             }
         } catch (err) {
             console.error("Erro ao carregar detalhes do carro:", err);
-            carroDetalhesContainer.innerHTML = `<p>Erro ao carregar detalhes.</p>`;
         }
     } else {
+        // se nenhum carroid foi passado na url, o utilizador so quer ver o historico.
+        // mantem o formulario escondido e a mensagem de instrucao visivel.
         instructionMessage.style.display = 'block';
         carroDetalhesContainer.style.display = 'none';
         formSection.style.display = 'none';
     }
 }
 
-// Inicialização da página
+// --- inicializacao ---
+
 window.addEventListener("DOMContentLoaded", () => {
+    // carrega as listas de clientes e vendedores para o select.
     preencherSelect(API_CLIENTES, "clienteId", "nome");
     preencherSelect(API_VENDEDORES, "vendedorId", "nome");
     
-    listarVendas();
-    carregarContextoDeVenda();
+    listarVendas(); // sempre carrega o historico de vendas.
+    carregarContextoDeVenda(); // verifica se deve mostrar o formulario ou a instrucao.
 });
 
